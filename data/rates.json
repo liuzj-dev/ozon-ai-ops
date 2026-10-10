@@ -1,0 +1,458 @@
+{
+ "CEL": {
+  "Economy": [
+   {
+    "minG": 1,
+    "maxG": 500,
+    "minVal": 0,
+    "maxVal": 135,
+    "base": 3.12,
+    "per_g": 0.026
+   },
+   {
+    "minG": 501,
+    "maxG": 30000,
+    "minVal": 0,
+    "maxVal": 135,
+    "base": 23.92,
+    "per_g": 0.01768
+   },
+   {
+    "minG": 1,
+    "maxG": 2000,
+    "minVal": 135.01,
+    "maxVal": 635,
+    "base": 16.64,
+    "per_g": 0.026
+   },
+   {
+    "minG": 2001,
+    "maxG": 30000,
+    "minVal": 135.01,
+    "maxVal": 635,
+    "base": 37.44,
+    "per_g": 0.01768
+   },
+   {
+    "minG": 1,
+    "maxG": 5000,
+    "minVal": 635.01,
+    "maxVal": 99999,
+    "base": 22.88,
+    "per_g": 0.026
+   },
+   {
+    "minG": 5001,
+    "maxG": 30000,
+    "minVal": 635.01,
+    "maxVal": 99999,
+    "base": 64.48,
+    "per_g": 0.02392
+   }
+  ],
+  "Standard": [
+   {
+    "minG": 1,
+    "maxG": 500,
+    "minVal": 0,
+    "maxVal": 135,
+    "base": 3.12,
+    "per_g": 0.0364
+   },
+   {
+    "minG": 501,
+    "maxG": 30000,
+    "minVal": 0,
+    "maxVal": 135,
+    "base": 23.92,
+    "per_g": 0.026
+   },
+   {
+    "minG": 1,
+    "maxG": 2000,
+    "minVal": 135.01,
+    "maxVal": 635,
+    "base": 16.64,
+    "per_g": 0.0364
+   },
+   {
+    "minG": 2001,
+    "maxG": 30000,
+    "minVal": 135.01,
+    "maxVal": 635,
+    "base": 37.44,
+    "per_g": 0.026
+   },
+   {
+    "minG": 1,
+    "maxG": 5000,
+    "minVal": 635.01,
+    "maxVal": 99999,
+    "base": 22.88,
+    "per_g": 0.0364
+   },
+   {
+    "minG": 5001,
+    "maxG": 30000,
+    "minVal": 635.01,
+    "maxVal": 99999,
+    "base": 64.48,
+    "per_g": 0.02912
+   }
+  ],
+  "Express": [
+   {
+    "minG": 1,
+    "maxG": 500,
+    "minVal": 0,
+    "maxVal": 135,
+    "base": 3.12,
+    "per_g": 0.0468
+   },
+   {
+    "minG": 501,
+    "maxG": 30000,
+    "minVal": 0,
+    "maxVal": 135,
+    "base": 23.92,
+    "per_g": 0.03432
+   },
+   {
+    "minG": 1,
+    "maxG": 2000,
+    "minVal": 135.01,
+    "maxVal": 635,
+    "base": 16.64,
+    "per_g": 0.0468
+   },
+   {
+    "minG": 2001,
+    "maxG": 30000,
+    "minVal": 135.01,
+    "maxVal": 635,
+    "base": 37.44,
+    "per_g": 0.026
+   },
+   {
+    "minG": 1,
+    "maxG": 5000,
+    "minVal": 635.01,
+    "maxVal": 99999,
+    "base": 22.88,
+    "per_g": 0.0468
+   },
+   {
+    "minG": 5001,
+    "maxG": 30000,
+    "minVal": 635.01,
+    "maxVal": 99999,
+    "base": 64.48,
+    "per_g": 0.02912
+   }
+  ]
+ },
+ "GUOO": {
+  "Economy": [
+   {
+    "minG": 1,
+    "maxG": 500,
+    "minVal": 0,
+    "maxVal": 135,
+    "base": 3,
+    "per_g": 0.026
+   },
+   {
+    "minG": 501,
+    "maxG": 30000,
+    "minVal": 0,
+    "maxVal": 135,
+    "base": 23.92,
+    "per_g": 0.01768
+   },
+   {
+    "minG": 1,
+    "maxG": 2000,
+    "minVal": 135.01,
+    "maxVal": 635,
+    "base": 16.64,
+    "per_g": 0.026
+   },
+   {
+    "minG": 2001,
+    "maxG": 30000,
+    "minVal": 135.01,
+    "maxVal": 635,
+    "base": 37.44,
+    "per_g": 0.01768
+   },
+   {
+    "minG": 1,
+    "maxG": 5000,
+    "minVal": 635.01,
+    "maxVal": 99999,
+    "base": 22.88,
+    "per_g": 0.026
+   },
+   {
+    "minG": 5001,
+    "maxG": 30000,
+    "minVal": 635.01,
+    "maxVal": 99999,
+    "base": 64.48,
+    "per_g": 0.02392
+   }
+  ],
+  "Standard": [
+   {
+    "minG": 1,
+    "maxG": 500,
+    "minVal": 0,
+    "maxVal": 135,
+    "base": 3.12,
+    "per_g": 0.0364
+   },
+   {
+    "minG": 501,
+    "maxG": 30000,
+    "minVal": 0,
+    "maxVal": 135,
+    "base": 23.92,
+    "per_g": 0.026
+   },
+   {
+    "minG": 1,
+    "maxG": 2000,
+    "minVal": 135.01,
+    "maxVal": 635,
+    "base": 16.64,
+    "per_g": 0.0364
+   },
+   {
+    "minG": 2001,
+    "maxG": 30000,
+    "minVal": 135.01,
+    "maxVal": 635,
+    "base": 37.44,
+    "per_g": 0.026
+   },
+   {
+    "minG": 1,
+    "maxG": 5000,
+    "minVal": 635.01,
+    "maxVal": 99999,
+    "base": 22.88,
+    "per_g": 0.0364
+   },
+   {
+    "minG": 5001,
+    "maxG": 30000,
+    "minVal": 635.01,
+    "maxVal": 99999,
+    "base": 64.48,
+    "per_g": 0.02912
+   }
+  ],
+  "Express": [
+   {
+    "minG": 1,
+    "maxG": 500,
+    "minVal": 0,
+    "maxVal": 135,
+    "base": 3.12,
+    "per_g": 0.0468
+   },
+   {
+    "minG": 501,
+    "maxG": 30000,
+    "minVal": 0,
+    "maxVal": 135,
+    "base": 23.92,
+    "per_g": 0.03432
+   },
+   {
+    "minG": 1,
+    "maxG": 2000,
+    "minVal": 135.01,
+    "maxVal": 635,
+    "base": 16.64,
+    "per_g": 0.0468
+   },
+   {
+    "minG": 2001,
+    "maxG": 30000,
+    "minVal": 135.01,
+    "maxVal": 635,
+    "base": 37.44,
+    "per_g": 0.026
+   },
+   {
+    "minG": 1,
+    "maxG": 5000,
+    "minVal": 635.01,
+    "maxVal": 99999,
+    "base": 22.88,
+    "per_g": 0.0468
+   },
+   {
+    "minG": 5001,
+    "maxG": 30000,
+    "minVal": 635.01,
+    "maxVal": 99999,
+    "base": 64.48,
+    "per_g": 0.02912
+   }
+  ]
+ },
+ "OYX_XY": {
+  "Economy": [
+   {
+    "minG": 1,
+    "maxG": 500,
+    "minVal": 0,
+    "maxVal": 135,
+    "base": 3.12,
+    "per_g": 0.026
+   },
+   {
+    "minG": 501,
+    "maxG": 30000,
+    "minVal": 0,
+    "maxVal": 135,
+    "base": 23.92,
+    "per_g": 0.01768
+   },
+   {
+    "minG": 1,
+    "maxG": 2000,
+    "minVal": 135.01,
+    "maxVal": 635,
+    "base": 16.64,
+    "per_g": 0.026
+   },
+   {
+    "minG": 2001,
+    "maxG": 30000,
+    "minVal": 135.01,
+    "maxVal": 635,
+    "base": 37.44,
+    "per_g": 0.01768
+   },
+   {
+    "minG": 1,
+    "maxG": 5000,
+    "minVal": 635.01,
+    "maxVal": 99999,
+    "base": 22.88,
+    "per_g": 0.026
+   },
+   {
+    "minG": 5001,
+    "maxG": 30000,
+    "minVal": 635.01,
+    "maxVal": 99999,
+    "base": 64.48,
+    "per_g": 0.02392
+   }
+  ],
+  "Standard": [
+   {
+    "minG": 1,
+    "maxG": 500,
+    "minVal": 0,
+    "maxVal": 135,
+    "base": 3.12,
+    "per_g": 0.0364
+   },
+   {
+    "minG": 501,
+    "maxG": 30000,
+    "minVal": 0,
+    "maxVal": 135,
+    "base": 23.92,
+    "per_g": 0.026
+   },
+   {
+    "minG": 1,
+    "maxG": 2000,
+    "minVal": 135.01,
+    "maxVal": 635,
+    "base": 16.64,
+    "per_g": 0.0364
+   },
+   {
+    "minG": 2001,
+    "maxG": 30000,
+    "minVal": 135.01,
+    "maxVal": 635,
+    "base": 37.44,
+    "per_g": 0.026
+   },
+   {
+    "minG": 1,
+    "maxG": 5000,
+    "minVal": 635.01,
+    "maxVal": 99999,
+    "base": 22.88,
+    "per_g": 0.0364
+   },
+   {
+    "minG": 5001,
+    "maxG": 30000,
+    "minVal": 635.01,
+    "maxVal": 99999,
+    "base": 64.48,
+    "per_g": 0.02912
+   }
+  ],
+  "Express": [
+   {
+    "minG": 1,
+    "maxG": 500,
+    "minVal": 0,
+    "maxVal": 135,
+    "base": 3.12,
+    "per_g": 0.0468
+   },
+   {
+    "minG": 501,
+    "maxG": 30000,
+    "minVal": 0,
+    "maxVal": 135,
+    "base": 23.92,
+    "per_g": 0.03432
+   },
+   {
+    "minG": 1,
+    "maxG": 2000,
+    "minVal": 135.01,
+    "maxVal": 635,
+    "base": 16.64,
+    "per_g": 0.0468
+   },
+   {
+    "minG": 2001,
+    "maxG": 30000,
+    "minVal": 135.01,
+    "maxVal": 635,
+    "base": 37.44,
+    "per_g": 0.026
+   },
+   {
+    "minG": 1,
+    "maxG": 5000,
+    "minVal": 635.01,
+    "maxVal": 99999,
+    "base": 22.88,
+    "per_g": 0.0468
+   },
+   {
+    "minG": 5001,
+    "maxG": 30000,
+    "minVal": 635.01,
+    "maxVal": 99999,
+    "base": 64.48,
+    "per_g": 0.02912
+   }
+  ]
+ }
+}

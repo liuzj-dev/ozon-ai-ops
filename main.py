@@ -4,6 +4,11 @@
 用法：
     python main.py listing  [csv路径] [--limit N]    模块 A：俄语 Listing 批量生成
     python main.py diagnose [csv路径] [--limit N]    模块 B：Ozon 商品 AI 诊断
+    python main.py price    [csv路径] [--limit N]    模块 C：定价与利润核算
+            可选参数：--logistics CEL|GUOO|OYX_XY|POST
+                      --delivery Economy|Standard|Express
+                      --margin 0.25      目标售价利润率
+                      --fx 0.0917        汇率（1 卢布 = ? 元）
 
 不传路径则使用 data/input/ 下的默认样例。
 --limit N 只处理前 N 条（适合低成本试跑）。
@@ -16,6 +21,7 @@ from pathlib import Path
 import pandas as pd
 
 import config
+import pricing
 from listing_gen import generate_listing
 from product_intel import diagnose_product, summarize, assign_priorities
 from llm_client import usage_summary
@@ -61,6 +67,21 @@ def load_products(path: Path, limit=None) -> pd.DataFrame:
 
 def join_list(v) -> str:
     return " | ".join(v) if isinstance(v, list) else str(v)
+
+
+def take_option(argv: list, name: str, default=None, cast=str):
+    """从参数列表里取出 `--name value` 并就地删除，返回解析后的值。"""
+    if name not in argv:
+        return default
+    i = argv.index(name)
+    if i + 1 >= len(argv):
+        raise SystemExit(f"{name} 后面要跟一个值")
+    val = argv[i + 1]
+    del argv[i:i + 2]
+    try:
+        return cast(val)
+    except (TypeError, ValueError):
+        raise SystemExit(f"{name} 的值无法解析：{val!r}")
 
 
 def report(ok: int, total: int, t0: float, dst: Path) -> int:
@@ -187,8 +208,102 @@ def cmd_diagnose(argv) -> int:
 
 
 # --------------------------------------------------------------------------
+# 模块 C：定价与利润核算（纯本地计算，不调用 LLM）
+# --------------------------------------------------------------------------
 
-COMMANDS = {"listing": cmd_listing, "diagnose": cmd_diagnose}
+def cmd_price(argv) -> int:
+    argv = list(argv)
+    logistics = take_option(argv, "--logistics", "CEL")
+    delivery = take_option(argv, "--delivery", "Economy")
+    margin = take_option(argv, "--margin", 0.25, float)
+    fx = take_option(argv, "--fx", pricing.DEFAULT_FX_RATE, float)
+    src, limit = parse_args(argv, config.INPUT_DIR / "pricing_sample.csv")
+
+    print("[模块 C] 定价与利润核算")
+    print(f"输入文件：{src}")
+    print(f"物流：{pricing.CARRIER_NAMES.get(logistics, logistics)} / {delivery}"
+          f"    目标售价利润率：{margin:.0%}    汇率：1₽ = {fx}¥\n")
+
+    df = load_products(src, limit)
+    rows = []
+    t0 = time.time()
+
+    for i, row in df.iterrows():
+        rec = row.to_dict()
+        try:
+            inp = pricing.PricingInput(
+                cost_cny=float(rec.get("cost_cny") or 0),
+                weight_g=float(rec.get("weight_g") or 0),
+                commission_rate=float(rec.get("commission_rate") or 0),
+                logistics=logistics,
+                delivery=delivery,
+                misc_fee=float(rec.get("misc_fee") or 0),
+                return_rate=float(rec.get("return_rate") or 0),
+                fx_rate=fx,
+            )
+        except ValueError as exc:
+            print(f"[{i + 1}/{len(df)}] 参数无法解析，跳过：{exc}")
+            continue
+
+        price, solved = pricing.solve_price_for_margin(inp, margin)
+        r = pricing.calc_net_profit(inp, price)
+
+        label = str(rec.get("title_ru") or rec.get("item_no") or f"第 {i + 1} 行")
+        print(f"[{i + 1}/{len(df)}] {label[:50]}")
+        print(f"    -> 建议售价 ¥{r.price_cny:.2f}（₽{r.price_rub:.0f}）"
+              f"  净利润 ¥{r.net_profit:.2f}  利润率 {r.profit_rate:.1f}%"
+              + ("" if solved else "   ⚠ 目标利润率不可达"))
+
+        rows.append({
+            "item_no": rec.get("item_no", ""),
+            "title_ru": rec.get("title_ru", ""),
+            "采购成本": round(r.cost, 2),
+            "重量(g)": inp.weight_g,
+            "建议售价(¥)": round(r.price_cny, 2),
+            "建议售价(₽)": round(r.price_rub),
+            "物流费": round(r.logistics, 2),
+            "平台佣金": round(r.commission, 2),
+            "代理佣金": round(r.agent, 2),
+            "杂费": round(r.misc, 2),
+            "提现费": round(r.withdrawal, 2),
+            "退货费": round(r.return_fee, 2),
+            "结算额": round(r.settlement, 2),
+            "净利润": round(r.net_profit, 2),
+            "售价利润率%": round(r.profit_rate, 2),
+            "成本利润率%": round(r.cost_rate, 2),
+            "达成目标": "是" if solved else "否",
+            "告警": join_list(r.warnings),
+        })
+
+    if not rows:
+        print("\n没有可核算的商品。")
+        return 1
+
+    config.OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    out = pd.DataFrame(rows)
+    dst = config.OUTPUT_DIR / f"pricing_{time.strftime('%Y%m%d_%H%M%S')}.xlsx"
+    with pd.ExcelWriter(dst, engine="openpyxl") as w:
+        out.to_excel(w, sheet_name="定价核算", index=False)
+        if "佣金率" not in out.columns:
+            pd.DataFrame([
+                {"参数": "物流商", "值": pricing.CARRIER_NAMES.get(logistics, logistics)},
+                {"参数": "配送方式", "值": delivery},
+                {"参数": "目标售价利润率", "值": f"{margin:.0%}"},
+                {"参数": "汇率(1₽=)", "值": f"{fx} 元"},
+                {"参数": "提现费率", "值": f"{pricing.DEFAULT_WITHDRAWAL_RATE:.1%}"},
+            ]).to_excel(w, sheet_name="核算参数", index=False)
+
+    print(f"\n汇总：{len(out)} 条 | 平均售价利润率 {out['售价利润率%'].mean():.1f}%"
+          f" | 平均成本利润率 {out['成本利润率%'].mean():.1f}%"
+          f" | 未达目标 {(out['达成目标'] == '否').sum()} 条")
+    print(f"耗时 {time.time() - t0:.2f}s（纯本地计算，不消耗 token）")
+    print(f"结果已导出：{dst}")
+    return 0
+
+
+# --------------------------------------------------------------------------
+
+COMMANDS = {"listing": cmd_listing, "diagnose": cmd_diagnose, "price": cmd_price}
 
 
 def main() -> int:
